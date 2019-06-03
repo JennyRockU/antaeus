@@ -5,32 +5,33 @@ import io.pleo.antaeus.core.external.PaymentProvider
 class BillingService(
     private val paymentProvider: PaymentProvider
 ) {
+    
    // TODO - Add code e.g. here
     
-        fun chargeInvoices() {
+   fun chargeInvoices() {
 
         // TODO handle localization
         val date = java.time.LocalDate.now()
         val day = date.getDayOfMonth()
 
         // bill only on the first day of the month
-        val isBillingPeriod = day == 1;
+        val isBillingPeriod = day == 1
 
-        if (isBillingPeriod){
+        if (isBillingPeriod) {
 
             // get all the pending invoices
-            var invoicesToProcess = customerService.fetch();
-            var pending : List<Invoice> = invoicesToProcess
-                .filter{ it.status == InvoiceStatus.PENDING.toString() }
+            var invoicesToProcess = customerService.fetch()
+            var pending: List<Invoice> = invoicesToProcess
+                .filter { it.status == InvoiceStatus.PENDING.toString() }
 
             // TODO try-catch and retry charge
-            for (invoice in invoicesToProcess){
+            for (invoice in invoicesToProcess) {
 
                 // TODO pass relevant parameters to 'charge' (customer, currency, amount)
                 var charged = false
                 try {
 
-                    charged = PaymentProvider.charge(invoice);
+                    charged = PaymentProvider.charge(invoice)
                     if (charged) {
 
                         //TODO handle expetions/retry (customer should not be charged without
@@ -39,13 +40,13 @@ class BillingService(
                         invoiceService.update(invoice.id)
                     }
 
-                } catch (e: CustomerNotFoundException){
+                } catch (e: CustomerNotFoundException) {
                     // TODO call logger
-                } catch (e: CurrencyMismatchException){
+                } catch (e: CurrencyMismatchException) {
                     // TODO call logger
-                } catch (e: NetworkException){
+                } catch (e: NetworkException) {
                     // TODO call logger
-                } catch (e: Exception){
+                } catch (e: Exception) {
                     // TODO call logger
                 }
 
