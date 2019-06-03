@@ -24,5 +24,17 @@ interface PaymentProvider {
           `NetworkException`: when a network error happens.
      */
 
-    fun charge(invoice: Invoice): Boolean
+    fun charge(invoice: Invoice): Boolean {
+        
+        // get the currency of the customer
+        var customer = customerService.fetch(invoice.customerId)
+
+        // check if the customer currency matches the invoice currency
+        if (customer.currency != invoice.amount.currency) {
+            throw CurrencyMismatchException(invoice.id, customer.id)
+        }
+
+        // TODO try to deduct the invoice amount from the customer (external) bank account
+        // return 'true' if successful, 'false' if no sufficient funds.
+    }
 }
