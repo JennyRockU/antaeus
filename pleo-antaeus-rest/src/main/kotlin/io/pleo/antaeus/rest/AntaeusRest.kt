@@ -76,7 +76,6 @@ class AntaeusRest (
                    }
                    
                    path("billing") {
-                       
                        // URL: /rest/v1/billing/
                        put {
                            it.json(billingService.chargeInvoices())
