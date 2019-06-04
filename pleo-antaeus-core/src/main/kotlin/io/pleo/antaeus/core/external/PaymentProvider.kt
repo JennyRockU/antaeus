@@ -34,7 +34,8 @@ interface PaymentProvider {
             throw CurrencyMismatchException(invoice.id, customer.id)
         }
 
-        // TODO try to deduct the invoice amount from the customer (external) bank account
-        // return 'true' if successful, 'false' if no sufficient funds.
+        // try to deduct the invoice amount from the customer (external) bank account
+        // 'true' if successful, 'false' if no sufficient funds.
+        return BankService.tryUpdate(customer.bankAccountId, invoice.amount)
     }
 }
