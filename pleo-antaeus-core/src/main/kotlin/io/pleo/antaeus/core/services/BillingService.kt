@@ -1,10 +1,9 @@
 package io.pleo.antaeus.core.services
 
 import io.pleo.antaeus.core.external.PaymentProvider
+import io.pleo.antaeus.core.services.InvoiceService
 
-class BillingService(
-    private val paymentProvider: PaymentProvider
-) {
+class BillingService(private val paymentProvider: PaymentProvider, private val invoiceService: InvoiceService) {
     
    // TODO - Add code e.g. here
     
@@ -20,7 +19,7 @@ class BillingService(
         if (isBillingPeriod) {
 
             // get all the pending invoices
-            var invoicesToProcess = customerService.fetch()
+            var invoicesToProcess = invoiceService.fetch()
             var pending: List<Invoice> = invoicesToProcess
                 .filter { it.status == InvoiceStatus.PENDING.toString() }
 
