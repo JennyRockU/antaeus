@@ -1,55 +1,14 @@
-## Antaeus
+## Billing Service
 
-Antaeus (/ænˈtiːəs/), in Greek mythology, a giant of Libya, the son of the sea god Poseidon and the Earth goddess Gaia. He compelled all strangers who were passing through the country to wrestle with him. Whenever Antaeus touched the Earth (his mother), his strength was renewed, so that even if thrown to the ground, he was invincible. Heracles, in combat with him, discovered the source of his strength and, lifting him up from Earth, crushed him to death.
+As the [challenge](https://github.com/pleo-io/antaeus/blob/master/README.md) requires the logic of the BillingService class was fully implemented. This now allows the caller of this service to perform charges of any unpaid (Pending) invoices of Antaeus customer. Charges are performed only on the first day of a month. Upon a each charge, an External service is called to bill the customer and the Antaeus customer invoice status is updated to ‘Paid’.
 
-Welcome to our challenge.
-
-## The challenge
-
-As most "Software as a Service" (SaaS) companies, Pleo needs to charge a subscription fee every month. Our database contains a few invoices for the different markets in which we operate. Your task is to build the logic that will pay those invoices on the first of the month. While this may seem simple, there is space for some decisions to be taken and you will be expected to justify them.
-
-### Structure
-The code given is structured as follows. Feel free however to modify the structure to fit your needs.
-```
-├── pleo-antaeus-app
-|
-|       Packages containing the main() application. 
-|       This is where all the dependencies are instantiated.
-|
-├── pleo-antaeus-core
-|
-|       This is where you will introduce most of your new code.
-|       Pay attention to the PaymentProvider and BillingService class.
-|
-├── pleo-antaeus-data
-|
-|       Module interfacing with the database. Contains the models, mappings and access layer.
-|
-├── pleo-antaeus-models
-|
-|       Definition of models used throughout the application.
-|
-├── pleo-antaeus-rest
-|
-|        Entry point for REST API. This is where the routes are defined.
-└──
-```
-
-## Instructions
-Fork this repo with your solution. We want to see your progression through commits (don’t commit the entire solution in 1 step) and don't forget to create a README.md to explain your thought process.
-
-Please let us know how long the challenge takes you. We're not looking for how speedy or lengthy you are. It's just really to give us a clearer idea of what you've produced in the time you decided to take. Feel free to go as big or as small as you want.
-
-Happy hacking 😁!
-
-## How to run
-```
-./docker-start.sh
-```
-
-## Libraries currently in use
-* [Exposed](https://github.com/JetBrains/Exposed) - DSL for type-safe SQL
-* [Javalin](https://javalin.io/) - Simple web framework (for REST)
-* [kotlin-logging](https://github.com/MicroUtils/kotlin-logging) - Simple logging framework for Kotlin
-* [JUnit 5](https://junit.org/junit5/) - Testing framework
-* [Mockk](https://mockk.io/) - Mocking library
+## Feature Availability/Further Considerations
+### Scalability
+As the invoices charges currently run synchronously (fetched and processed one-by-one), this could be an expensive and inefficient task as Antaeus’ number of invoices grows larger. As a future improvement, a queue usage, for instance, can increase the performance as several different concurrent threads would pull the pending messages from the queue.
+### Holidays
+Local holidays might be taken into consideration and shift the charge from the 1st day of the month to the next business day in case there is a holiday on the 1st. External APIs would may provide the needed market holiday data.
+### Monitoring
+Customer payments are a very sensitive matter for both the SaaS company and the customer. Because of that, in a real-life service, I would invest in monitoring the charges in the following ways:
+Maintain a database which stores the charges’ history.
+Notify and handle immediately (possibly manually) any invoices which were charged by the External service but failed to be updated to ‘Paid’ due to an Anateuas internal error.
+Create process to handle invoices which are pending for an unreasonable time period (could be caused by recurring internal failures, insufficient funds etc.).
