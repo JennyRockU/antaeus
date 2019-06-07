@@ -15,9 +15,7 @@ class BillingService(private val paymentProvider: PaymentProvider, private val i
           `NetworkException`: when a network error happens.
      */
     fun chargeInvoices() {
-
-        val date = LocalDate.now(ZoneOffset.UTC)
-        val day = date.dayOfMonth
+        val day = LocalDate.now(ZoneOffset.UTC).dayOfMonth
 
         // bill only on the first day of the month
         val isBillingPeriod = day == 1;
