@@ -1,6 +1,11 @@
 ## Billing Service
 
-As the [challenge](https://github.com/pleo-io/antaeus/blob/master/README.md) requires the logic of the BillingService class was fully implemented. This now allows the caller of this service to perform charges of any unpaid (Pending) invoices of Antaeus customer. Charges are performed only on the first day of a month. Upon a each charge, an External service is called to bill the customer and the Antaeus customer invoice status is updated to ‘Paid’.
+As the [challenge](https://github.com/pleo-io/antaeus/blob/master/README.md) requires the logic of the BillingService class was fully implemented. This now allows the caller of this service to perform charges of unpaid (Pending) invoices of Antaeus customers.
+- charges are performed only on the first day of a month. 
+- upon each charge, an external service is called to bill the customer and the Antaeus customer invoice status is updated to ‘Paid’.
+- a result object is returned with the summary of the processed invoices (failed, processed, rejected)
+- failed invoices (exceptions) are recorded as part of the result, however additional logging/handling would be more suitable in a real-world application.
+
 
 ## Feature Availability/Further Considerations
 ### Monitoring
