@@ -18,14 +18,5 @@ object InvoiceTable : Table() {
 object CustomerTable : Table() {
     val id = integer("id").autoIncrement().primaryKey()
     val currency = varchar("currency", 3)
-    val bankAccountId = integer("id") // an extenal id number therefore not references the BankAccount table
-}
-
-// ***External***
-// represents an extenal entity of a customer bank account
-object BankAccountTable : Table() {
-    val id = integer("id").autoIncrement().primaryKey()
-    val balance = decimal("value", 100000, 2) //TODO check values
-    val currency = varchar("currency", 3)
 }
 
