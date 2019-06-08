@@ -6,6 +6,8 @@ As the [challenge](https://github.com/pleo-io/antaeus/blob/master/README.md) req
 - a result object is returned with the summary of the processed invoices (failed, processed, rejected)
 - failed invoices (exceptions) are recorded as part of the result, however additional logging/handling would be more suitable in a real-world application.
 
+## Tests
+A test class of the Billing Service was added. The class includes basic unit tests, with some extended tests which would be able to run with a database access beyond what is currently being provided in by the MockK library. 
 
 ## Feature Availability/Further Considerations
 ### Monitoring
