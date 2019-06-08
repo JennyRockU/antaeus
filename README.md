@@ -22,3 +22,9 @@ As the invoices charges currently run synchronously (fetched and processed one-b
 ### Holidays
 Local holidays might be taken into consideration and shift the charge from the 1st day of the month to the next business day in case there is a holiday on the 1st. External APIs would may provide the needed market holiday data.
 
+
+
+##
+_Love getting feedback and making my applications even better, thank you!_
+
+[Jenny R](https://www.linkedin.com/in/jennyrukman/).
