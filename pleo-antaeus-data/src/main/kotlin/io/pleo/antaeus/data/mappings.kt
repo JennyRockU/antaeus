@@ -25,5 +25,4 @@ fun ResultRow.toInvoice(): Invoice = Invoice(
 fun ResultRow.toCustomer(): Customer = Customer(
     id = this[CustomerTable.id],
     currency = Currency.valueOf(this[CustomerTable.currency]),
-    bankAccountId = this[CustomerTable.bankAccountId]
 )
