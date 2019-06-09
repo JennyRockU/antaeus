@@ -16,6 +16,7 @@ class BillingServiceTest {
     // setup
     private val dal = mockk<AntaeusDal> {}
     private val invoiceService = InvoiceService(dal = dal)
+    // charge needs to be overriden as it currently randomly returns true/false
     private val paymentProvider : PaymentProvider = object : PaymentProvider {
        override fun charge (invoice: Invoice) :Boolean{
             return true
@@ -30,10 +31,9 @@ class BillingServiceTest {
         val differentDay = if (today.dayOfMonth < 28) {today.dayOfMonth + 1} else { today.dayOfMonth - 1}
         billingService.billingDayOfMonth = differentDay
 
-        var billingResult = billingService.chargeInvoices()
+        val billingResult = billingService.chargeInvoices()
         val expectedMsg = "Invoices are only charged on the 1st of each month. Today is ${today.month} ${today.dayOfMonth}."
         assert(billingResult.message.contains(expectedMsg))
-        println("is ok")
     }
 
 
@@ -48,7 +48,7 @@ class BillingServiceTest {
         val today = LocalDate.now()
         billingService.billingDayOfMonth = today.dayOfMonth
 
-        var billingResult = billingService.chargeInvoices()
+        val billingResult = billingService.chargeInvoices()
         val expectedMsgText = "pending invoices were found"
         assert(billingResult.message.contains(expectedMsgText))
     }
