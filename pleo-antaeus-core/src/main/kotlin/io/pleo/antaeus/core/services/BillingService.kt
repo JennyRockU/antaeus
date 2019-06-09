@@ -81,7 +81,7 @@ class BillingService(private val paymentProvider: PaymentProvider, private val i
 
         } catch (e: Exception){
 
-            var remaining = retries.minus(1)
+            val remaining = retries.minus(1)
             if (remaining < 0){
                 // propagate the error if no retries left
                 throw e
