@@ -10,6 +10,11 @@ As the [challenge](https://github.com/pleo-io/antaeus/blob/master/README.md) req
 A test class of the Billing Service was added. The class includes basic unit tests, with some extended tests which would be able to run with a database access that is beyond what is currently provided in by the MockK library. 
 
 ## Feature Availability/Further Considerations
+The following describes some missing capabilites/features which is worth considering, mainly for a real-case production system.
+
+### Locking and Isolation
+As the Billing Service performs two separate operations; one of charging the customer account through an external service and the other updating the Antaeus database, it is crucial these two actions would be isolated as one transaction. This is crucial to make sure that no customer is being charged without the Antaeus invoice to be marked as 'Paid', and there need to be locks to ensure that there are no errors due to simultaneous billings.
+
 ### Monitoring
 Payment charges are a very sensitive matter for both the SaaS company and the customer. Because of this, in a real-life service, I would invest more resouces into monitoring those charges in the following ways:
 - Maintain a database which stores the charges’ history.
